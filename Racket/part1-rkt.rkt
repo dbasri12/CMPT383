@@ -1,0 +1,73 @@
+#lang racket
+(provide (all-defined-out))
+
+(define (make-rational n [d 1])
+   (list 'rational n d))
+         
+(define r-numerator second)
+(define r-denominator third)
+
+(define (num-denom r)
+  (list (r-numerator r) (r-denominator r)))
+
+(define (to-string r)
+  (string-append (~s (r-numerator r)) "/" (~s (r-denominator r))))
+
+(define (to-float r)
+  (exact->inexact (/ (r-numerator r) (r-denominator r))))
+
+(define (r= r1 r2)
+  (and (= (to-float r1) (to-float r2))))
+
+(define (r< r1 r2)
+  (and (< (to-float r1) (to-float r2))))
+
+(define (is-int? r)
+  (zero? (modulo (r-numerator r)(r-denominator r))))
+
+(define (r+ r1 r2)
+  (let* ([r1-num (r-numerator r1)]
+          [r1-den (r-denominator r1)]
+          [r2-num (r-numerator r2)]
+          [r2-den (r-denominator r2)])
+    (make-rational (+ (* r1-den r2-num) (* r1-num r2-den)) (* r1-den r2-den))))
+
+(define (r* r1 r2)
+  (let* ([r1-num (r-numerator r1)]
+          [r1-den (r-denominator r1)]
+          [r2-num (r-numerator r2)]
+          [r2-den (r-denominator r2)])
+    (make-rational (* r1-num r2-num)(* r2-den r1-den))))
+
+(define (r/ r1 r2)
+  (let* ([r1-num (r-numerator r1)]
+          [r1-den (r-denominator r1)]
+          [r2-num (r-numerator r2)]
+          [r2-den (r-denominator r2)])
+    (make-rational (* r1-num r2-den)(* r2-num r1-den))))
+
+(define (invert r)
+  (let* ([r-num (r-numerator r)]
+          [r-den (r-denominator r)])
+   (make-rational r-den r-num)))
+
+(define (gcd n d)
+    (cond [(> n d) (gcd d (- n d))]
+          [(< n d) (gcd n (- d n))]
+          [else n]))
+
+(define (to-lowest-terms r)
+  (let* ([n-gcd (gcd (r-numerator r)(r-denominator r))])
+    (make-rational (/ (r-numerator r) n-gcd) (/(r-denominator r)n-gcd))))
+
+(define (harmonic-sum n)
+  (cond [(= n 1) (make-rational 1 1)]
+         [else (r+ (make-rational 1 n)(harmonic-sum (- n 1)))] ))
+
+
+    
+
+
+  
+  
+      
