@@ -1,6 +1,9 @@
 # CMPT383
 
-Part 1) 
+All programs consists of two parts:
+
+Part 1: 
 Create a Rational type 
-Part 2) 
-Linear insertion sort experiment
+
+Part 2:
+Linear sorting experiment
